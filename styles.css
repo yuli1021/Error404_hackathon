@@ -1,0 +1,359 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+  background: linear-gradient(135deg, #e8f5f1, #ffffff);
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+/* ======== Icono del menú ======== */
+.sidebar-icon {
+  position: fixed;
+  top: 10px;
+  left: 5px;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  z-index: 1001;
+  transition: opacity 0.3s ease;
+}
+
+/* Desaparece al mostrar sidebar */
+.sidebar:hover ~ .sidebar-icon,
+.sidebar.open ~ .sidebar-icon,
+.sidebar-trigger:hover + .sidebar + .sidebar-icon {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ======== Sidebar de escritorio ======== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -200px;
+  width: 200px;
+  height: 100%;
+  background-color: #f1f1f1;
+  overflow: hidden;
+  transition: left 0.3s ease;
+  z-index: 1000;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+
+/* Estado visible */
+.sidebar.open {
+  left: 0;
+}
+
+/* Enlaces */
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar a i {
+  font-size: 20px;
+  width: 24px;
+  text-align: center;
+}
+
+.sidebar a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+/* ======== Hover y contenido ======== */
+.sidebar-trigger {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 100%;
+  z-index: 999;
+  background: transparent;
+}
+
+.sidebar:hover,
+.sidebar-trigger:hover + .sidebar {
+  left: 0;
+}
+
+div.content {
+  margin-left: 0;
+  padding: 16px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar:hover ~ .content,
+.sidebar.open ~ .content,
+.sidebar-trigger:hover + .sidebar ~ .content {
+  margin-left: 200px;
+}
+
+/* ======== Chat general ======== */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  max-width: 800px;
+  margin: 30px auto;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* Área de mensajes */
+.chat-box {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Mensajes individuales */
+.message {
+  max-width: 80%;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+/* Bot */
+.message.bot {
+  background-color: #f1f1f1;
+  align-self: flex-start;
+  color: #333;
+  border-top-left-radius: 0;
+}
+
+/* Usuario */
+.message.user {
+  background-color: #04AA6D;
+  align-self: flex-end;
+  color: white;
+  border-top-right-radius: 0;
+  text-align: right; 
+}
+
+
+/* ======== Entrada ======== */
+.chat-input {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-top: 1px solid #ddd;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  margin-right: 10px;
+  font-size: 14px;
+  background-color: #fff;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.chat-input input:focus {
+  box-shadow: 0 0 0 2px #04AA6D33;
+}
+
+/* Botón de enviar */
+.send-btn {
+  background-color: #04AA6D;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.send-btn:hover {
+  background-color: #038a59;
+  transform: scale(1.1);
+}
+
+/* ======== Scroll bonito ======== */
+.chat-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.chat-box::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* ======== Versión móvil ======== */
+@media screen and (max-width: 700px) {
+  .chat-container {
+    height: calc(100vh - 80px); /* deja espacio para la barra inferior */
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .chat-input input {
+    font-size: 16px;
+  }
+
+  .send-btn {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+
+/* ======== Responsivo: versión móvil ======== */
+@media screen and (max-width: 700px) {
+  /* Barra inferior */
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    top: auto;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+    transition: none;
+    padding: 0;
+  }
+
+  .sidebar a {
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px 0;
+    color: #333;
+    flex: 1;
+  }
+
+  .sidebar a span {
+    font-size: 12px;
+  }
+
+  .sidebar a i {
+    font-size: 20px;
+  }
+
+  /* Quita icono lateral y zona hover en móvil */
+  .sidebar-icon,
+  .sidebar-trigger {
+    display: none;
+  }
+
+  div.content {
+    margin-left: 0;
+    padding-bottom: 70px; /* deja espacio para la barra inferior */
+  }
+}
+
+/* ======== Responsivo extremo ======== */
+@media screen and (max-width: 400px) {
+  .sidebar a span {
+    display: none; /* solo iconos si el espacio es mínimo */
+  }
+}
+
+/* ======== Layout general ======== */
+.main-layout {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ======== Sección de información ======== */
+.assistant-info {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 50px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.assistant-info h2 {
+  color: #04AA6D;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.assistant-info p {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.assistant-info ul {
+  margin-left: 20px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #444;
+}
+
+.assistant-info li {
+  margin-bottom: 6px;
+}
+
+/* Logo de la universidad */
+.utc-logo {
+  width: 100px;
+  margin-bottom: 15px;
+  align-self: center;
+}
+
+/* ======== Ajuste del chat ======== */
+.chat-container {
+  flex: 2;
+}
+
+/* ======== Responsivo ======== */
+@media screen and (max-width: 900px) {
+  .main-layout {
+    flex-direction: column;
+  }
+
+  .assistant-info {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .assistant-info ul {
+    text-align: left;
+  }
+
+  .utc-logo {
+    width: 80px;
+  }
+}

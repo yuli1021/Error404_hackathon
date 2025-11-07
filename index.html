@@ -70,43 +70,67 @@
         </div>
     </div>
 
-    <script>
-        function enviar() {
-            const texto = document.getElementById('mensaje').value;
-            if(!texto) return;
+   <script>
 
-            // Mostrar mensaje del usuario
-            const chatBox = document.getElementById('chat-box');
-            const userMsg = document.createElement('div');
-            userMsg.className = 'message user';
-            userMsg.innerHTML = `<p>${texto}</p>`;
-            chatBox.appendChild(userMsg);
+// ACTIVAR ENVÍO CON ENTER
+document.getElementById('mensaje').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        enviar();
+    }
+});
 
-            // Limpiar input
-            document.getElementById('mensaje').value = '';
+function enviar() {
+    const input = document.getElementById('mensaje');
+    const texto = input.value.trim();
+    if (!texto) return;
 
-            // Enviar mensaje a api.php
-            fetch('api.php', {
-                method: 'POST',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ mensaje: texto })
-            })
-            .then(res => res.json())
-            .then(data => {
-                const botMsg = document.createElement('div');
-                botMsg.className = 'message bot';
-                botMsg.innerHTML = `<p>${data.respuesta || data.error || 'Error en el servidor'}</p>`;
-                chatBox.appendChild(botMsg);
-                chatBox.scrollTop = chatBox.scrollHeight; 
-            })
-            .catch(err => {
-                const botMsg = document.createElement('div');
-                botMsg.className = 'message bot';
-                botMsg.innerHTML = `<p>Error en el servidor</p>`;
-                chatBox.appendChild(botMsg);
-            });
-        }
-    </script>
+    const chatBox = document.getElementById('chat-box');
+
+    // Mensaje del usuario
+    const userMsg = document.createElement('div');
+    userMsg.className = 'message user';
+    userMsg.innerHTML = `<p>${texto}</p>`;
+    chatBox.appendChild(userMsg);
+
+    // Limpiar y enfocar
+    input.value = '';
+    input.focus();
+
+    // Petición a api.php
+    fetch('api.php', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mensaje: texto })
+    })
+    .then(res => res.json())
+    .then(data => {
+        const botMsg = document.createElement('div');
+        botMsg.className = 'message bot';
+
+        const respuesta =
+            (data.respuesta && data.respuesta.trim() !== "")
+            ? data.respuesta
+            : data.error
+              ? data.error
+              : "Sin respuesta del servidor.";
+
+        botMsg.innerHTML = `<p>${respuesta}</p>`;
+        chatBox.appendChild(botMsg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    })
+    .catch(err => {
+        console.error("FETCH ERROR:", err);
+        const botMsg = document.createElement('div');
+        botMsg.className = 'message bot';
+        botMsg.innerHTML = `<p>Error de conexión con el servidor.</p>`;
+        chatBox.appendChild(botMsg);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    });
+}
+
+</script>
+
     
 </body>
 </html>

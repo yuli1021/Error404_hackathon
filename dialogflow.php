@@ -44,7 +44,7 @@ try {
 <head>
     <meta charset="utf-8">
     <title>Prueba Dialogflow</title>
-</head>
+/head>
 <body>
 
 <h2>Chat con Dialogflow</h2>

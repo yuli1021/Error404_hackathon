@@ -1,0 +1,41 @@
+# Archivos sensibles
+claves.json
+.env
+
+# Dependencias PHP
+/vendor/
+
+# Archivos de Composer
+composer.lock
+composer.phar
+
+# Caché de Composer
+/.composer/
+
+# Logs
+*.log
+logs/
+storage/logs/
+
+# Archivos temporales
+tmp/
+temp/
+cache/
+*.cache
+
+# Configuraciones locales
+*.local
+
+# Sistemas operativos
+.DS_Store
+Thumbs.db
+
+# IDEs
+/.idea/
+/.vscode/
+*.swp
+
+# Backups
+*.bak
+*.old
+*.orig
